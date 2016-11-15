@@ -1,0 +1,41 @@
+#!/usr/bin/perl -w
+#
+# This script gets .text section of an object ELF file
+# and shows it in hex format, perfect to add the output
+# shellcode to your exploit.
+# 
+# Very ugly perl code, but works.
+#
+# (c) spinfoo
+# February 2006
+
+#use strict;
+
+
+die "usage: show_opcodes prog.o\n\tby spinfoo\n" if $#ARGV+1 != 1;
+
+my $file=$ARGV[0];
+my $offset=`readelf -S $file |grep .text|awk '{print \$6}'`;
+my $size= `readelf -S $file |grep .text|awk '{print \$7}'`;
+
+chomp $offset;
+chomp $size;
+$offset= hex $offset;
+$size= hex $size;
+
+open(FILE, $file) or die "Can't open file: $file.\n";
+binmode FILE;
+seek(FILE, $offset, 0);
+read(FILE, $buffer, $size);
+close FILE;
+
+# Dump machine code 
+#for ($i=0; $i < length($buffer); $i++) {
+#  print substr($buffer, $i, 1); }
+
+# Dump pretty formatted shellcode
+for ($i=0; $i < length($buffer); $i++) {
+  $a=substr($buffer, $i, 1);
+  printf("\\x%02x", ord $a);
+}
+

