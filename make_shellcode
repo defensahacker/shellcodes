@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# usage: prog fich.o
+#
+# description: Take the object code from 1st argument and shows
+#    pretty formatted shellcode code.
+#
+# (c) spinfoo 
+
+echo -n 'char s[]="'
+perl show_opcodes $1
+cat << FIN
+";
+int main() {
+  int *ret= (int*) &ret + 2;
+  (*ret) = (int)s;
+}
+FIN
