@@ -11,8 +11,7 @@
 
 #use strict;
 
-
-die "usage: show_opcodes prog.o\n\tby spinfoo\n" if $#ARGV+1 != 1;
+die "usage: $0 prog.o\n" if $#ARGV+1 != 1;
 
 my $file=$ARGV[0];
 my $offset=`readelf -S $file |grep .text|awk '{print \$6}'`;

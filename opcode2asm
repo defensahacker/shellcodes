@@ -1,0 +1,30 @@
+#!/usr/bin/python
+##
+# Converts OPCodes to ASM for x86
+#
+# Usage example:
+# $ echo -e "\x31\xdb\xb0\x01\xcd\x80" > /tmp/opcodes.txt
+# $ xxd /tmp/opcodes.txt 
+# 0000000: 31db b001 cd80 0a                        1......
+# $ ./opcode2asm /tmp/opcodes.txt 
+# xor	ebx, ebx
+# mov	al, 1
+# int	0x80
+#
+# (c) spinfoo
+
+import sys, struct
+from capstone import *
+
+if len(sys.argv) != 2:
+	print "usage: %s file"
+	sys.exit(1)
+
+f= open(sys.argv[1], "rb")
+CODE= f.read()
+f.close()
+
+md = Cs(CS_ARCH_X86, CS_MODE_64)
+asm=["%s\t%s" %(mnemonic, op_str) for (address, size, mnemonic, op_str) in md.disasm_lite(CODE, 0x0000)]
+for i in asm: print i
+
