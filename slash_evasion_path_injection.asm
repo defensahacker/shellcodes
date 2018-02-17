@@ -10,7 +10,7 @@
 ;  become / (0x2f) so /bin/sh is executed at the end
 ;
 ; (c) spinfoo
-;
+; http://spinfoo.ninja
 ; ****************************************************
 
 section	.text
